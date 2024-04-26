@@ -1,4 +1,4 @@
-package com.redcrab.red.batch;
+package com.galaxy.bluesky.batch;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

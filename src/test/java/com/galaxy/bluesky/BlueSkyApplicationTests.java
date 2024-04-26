@@ -1,10 +1,10 @@
-package com.redcrab.red;
+package com.galaxy.bluesky;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RedCrabApplicationTests {
+class BlueSkyApplicationTests {
 
     @Test
     void contextLoads() {

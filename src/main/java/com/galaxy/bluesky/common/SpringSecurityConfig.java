@@ -1,4 +1,4 @@
-package com.redcrab.red.common;
+package com.galaxy.bluesky.common;
 
 import org.springframework.context.annotation.Configuration;
 
