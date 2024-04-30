@@ -45,7 +45,7 @@ public class SchedulingMng {
                 log.info("SchedulingMng.runEvery5Seconds taskId : {}, status : {}", map.get("taskId").toString(), status);
             }
         } catch (Exception e) {
-            log.error("Exception : {}", e);
+            log.error("Exception : ", e);
         }
     }
 
@@ -56,7 +56,7 @@ public class SchedulingMng {
         try {
             if (taskId != null) status = getString(paramMap);
         } catch (Exception e) {
-            log.error("Exception : {}", e);
+            log.error("Exception : ", e);
         }
         log.info("SchedulingMng.runEvery5Seconds taskId : {}, status : {}", taskId, status);
         return status;
