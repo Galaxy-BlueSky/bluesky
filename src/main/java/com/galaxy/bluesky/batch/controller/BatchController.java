@@ -1,9 +1,9 @@
-package com.galaxy.bluesky.batch;
+package com.galaxy.bluesky.batch.controller;
 
+import com.galaxy.bluesky.batch.service.BatchService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,12 +19,12 @@ import java.util.Map;
 @Component
 @EnableScheduling
 @RestController
-public class SchedulingMng {
+public class BatchController {
     // Inject the ScheduledTasks bean
     @Autowired
-    ScheduledTasks scheduledTasks;
+    BatchService batchService;
 
-    public List<Map<String, Object>> getTaskId(String cronTime) {
+    public List<Map<String, Object>> getTaskList(String cronTime) {
         List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < 10; i++){
             Map<String, Object> taskMap = new HashMap<String, Object>();
@@ -35,10 +35,10 @@ public class SchedulingMng {
     }
 
     // This will run every 5 seconds
-    @Scheduled(cron = "0/10 * * * * ?")
-    public void runEvery5Seconds() {
+//    @Scheduled(cron = "0/10 * * * * ?")
+    public void runBatchScheduled() {
         try {
-            List<Map<String, Object>> list = getTaskId("cron_0/10_*_*_*_*");
+            List<Map<String, Object>> list = getTaskList("cron_0/10_*_*_*_*");
             String status = "fail";
             for (Map<String, Object> map : list) {
                 status = getString(map);
@@ -49,8 +49,8 @@ public class SchedulingMng {
         }
     }
 
-    @RequestMapping("/requestRunTasks")
-    public String requestRunTasks(@RequestParam Map<String, Object> paramMap) {
+    @RequestMapping("/apiBatchScheduled")
+    public String apiBatchScheduled(@RequestParam Map<String, Object> paramMap) {
         String status = "fail";
         String taskId = (String) paramMap.get("taskId");
         try {
@@ -63,12 +63,12 @@ public class SchedulingMng {
     }
 
     private String getString(Map<String, Object> paramMap) throws Exception {
-        Class<?> aClass = Class.forName(scheduledTasks.getClass().getName());
+        Class<?> aClass = Class.forName(batchService.getClass().getName());
         Method[] aMethods = aClass.getDeclaredMethods();
         String status = "fail";
         for (Method aMethod : aMethods) {
             if(aMethod.getName().equals(paramMap.get("taskId").toString())){
-                status  = (String) aMethod.invoke(scheduledTasks, paramMap);
+                status  = (String) aMethod.invoke(batchService, paramMap);
             }
         }
         return status;
